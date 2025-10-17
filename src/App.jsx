@@ -1,4 +1,4 @@
-import Tabs from "./components/Tabs";
+import Tabs from "./components/Tabs.jsx";
 
 const DashboardPlaceholder = () => (
   <div>Dashboard will become available when your application is accepted.</div>

@@ -1,24 +1,33 @@
 import React, { useState } from "react";
 
 const Tabs = ({ tabs }) => {
-  const [activeTab, setActiveTab] = useState(0);
-  const isTabActive = activeTab !== null;
+  const DEFAULT_TAB_INDEX = 0;
+  const [activeTab, setActiveTab] = useState(DEFAULT_TAB_INDEX);
+
+  // If tabs is empty or undefined, show fallback
+  if (!tabs || tabs.length === 0) {
+    return <div>No tabs available</div>;
+  }
 
   return (
     <div
       className={`flex flex-col w-full min-h-screen transition-colors duration-300 ${
-        isTabActive ? "bg-white text-orange-600" : "bg-orange-600 text-white"
+        tabs[activeTab] ? "bg-white text-orange-600" : "bg-orange-600 text-white"
       }`}
     >
       {/* Header row with TAP logo + Tabs */}
       <div className="grid grid-cols-4 w-full">
-        {/* TAP logo placeholder */}
+        {/* TAP logo image */}
         <div
-          className={`flex items-center justify-center py-6 text-7xl font-bold tracking-wide shadow-md ${
-            isTabActive ? "bg-orange-600 text-white" : ""
+          className={`flex items-center justify-center py-6 ${
+            tabs[activeTab] ? "bg-orange-600" : ""
           }`}
         >
-          TAP
+          <img
+            src="/tap-logo.png"
+            alt="Teacher Accelerator Program logo"
+            className="h-20 object-contain"
+          />
         </div>
 
         {/* Tabs evenly spaced */}
@@ -28,7 +37,7 @@ const Tabs = ({ tabs }) => {
             <button
               key={index}
               onClick={() => setActiveTab(index)}
-              className={`w-full py-6 text-3xl font-semibold lowercase shadow-md transition duration-300 ${
+              className={`w-full py-6 text-3xl font-semibold lowercase transition duration-300 ${
                 isActive
                   ? "bg-white text-orange-600"
                   : "bg-orange-600 text-white hover:bg-orange-500"
@@ -42,9 +51,7 @@ const Tabs = ({ tabs }) => {
 
       {/* Tab content */}
       <div className="flex-grow p-8">
-        <div className="bg-orange-600 text-white p-6 rounded shadow text-xl">
-          {tabs[activeTab].content}
-        </div>
+        <div>{tabs[activeTab]?.content || <div>No content available</div>}</div>
       </div>
     </div>
   );
